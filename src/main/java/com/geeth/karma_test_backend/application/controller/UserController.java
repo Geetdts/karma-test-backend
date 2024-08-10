@@ -1,8 +1,8 @@
 package com.geeth.karma_test_backend.application.controller;
 
 import com.geeth.karma_test_backend.application.request.UserCreateRequest;
-import com.geeth.karma_test_backend.application.request.UserUpdateRequest;
-import com.geeth.karma_test_backend.application.response.ListResponse;
+import com.geeth.karma_test_backend.application.request.UserLoginRequest;
+import com.geeth.karma_test_backend.application.response.LoginResponse;
 import com.geeth.karma_test_backend.application.response.ObjectResponse;
 import com.geeth.karma_test_backend.application.util.SystemMessage;
 import com.geeth.karma_test_backend.domain.dto.UserDto;
@@ -14,10 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+/**
+ * Controller class responsible for managing User-related operations.
+ */
 @CrossOrigin
-@Tag(name = "User")
+@Tag(name = "User", description = "User APIs.")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -25,23 +26,13 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @Operation(summary = "Get all active users (not deleted)")
-    @GetMapping
-    public ResponseEntity<ListResponse> getAllUsers() {
-        List<UserDto> userDtoList = iUserService.getAllUsers();
-        return new ResponseEntity<>(new ListResponse<>(userDtoList, HttpStatus.OK.value(), SystemMessage.SUCCESS),
-                HttpStatus.OK);
-    }
-
-    @Operation(summary = "Get a specific user by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ObjectResponse> getUserById(@PathVariable Long id) {
-        UserDto userDto = iUserService.getUserById(id);
-        return new ResponseEntity<>(new ObjectResponse<>(userDto, HttpStatus.OK.value(), SystemMessage.SUCCESS),
-                HttpStatus.OK);
-    }
-
-    @Operation(summary = "Create new User")
+    /**
+     * Create a new User / Register user.
+     *
+     * @param userCreateRequest - Contains the details of the user to be created.
+     * @return - A ResponseEntity containing the created user's details.
+     */
+    @Operation(summary = "Create new User / Register user")
     @PostMapping
     public ResponseEntity<ObjectResponse> createUser(@RequestBody UserCreateRequest userCreateRequest) {
         UserDto userDto = iUserService.create(userCreateRequest);
@@ -49,19 +40,19 @@ public class UserController {
                 HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update existing User")
-    @PutMapping()
-    public ResponseEntity<ObjectResponse> updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
-        UserDto updatedUserDto = iUserService.update(userUpdateRequest);
-        return new ResponseEntity<>(new ObjectResponse<>(updatedUserDto, HttpStatus.OK.value(), SystemMessage.UPDATE),
+    /**
+     * Login User.
+     *
+     * @param userLoginRequest - Contains the user's login credentials.
+     * @return - A ResponseEntity containing the login response details with a success status.
+     */
+    @Operation(summary = "Login User")
+    @PostMapping("/login")
+    public ResponseEntity<ObjectResponse> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+        LoginResponse loginResponse = iUserService.login(userLoginRequest);
+        return new ResponseEntity<>(new ObjectResponse<>(loginResponse, HttpStatus.OK.value(), SystemMessage.SUCCESS),
                 HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete a User")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ObjectResponse> deleteUser(@PathVariable Long id) {
-        iUserService.deleteUser(id);
-        return new ResponseEntity<>(new ObjectResponse<>(null, HttpStatus.OK.value(), SystemMessage.DELETE),
-                HttpStatus.OK);
-    }
+
 }

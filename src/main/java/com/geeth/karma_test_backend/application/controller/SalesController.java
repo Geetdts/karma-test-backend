@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller class responsible for managing Sale-related operations.
+ */
 @CrossOrigin
-@Tag(name = "Sale")
+@Tag(name = "Sale", description = "Sale APIs.")
 @RestController
 @RequestMapping("/api/v1/sale")
 public class SalesController {
@@ -25,6 +28,11 @@ public class SalesController {
     @Autowired
     private ISaleService iSaleService;
 
+    /**
+     * Get all active sales (not deleted).
+     *
+     * @return - A ResponseEntity containing a list of active sales.
+     */
     @Operation(summary = "Get all active sales (not deleted)")
     @GetMapping
     public ResponseEntity<ListResponse> getAllSales() {
@@ -33,6 +41,12 @@ public class SalesController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Get a specific sale by ID.
+     *
+     * @param id - The ID of the sale to retrieve.
+     * @return - A ResponseEntity containing the details of the sale.
+     */
     @Operation(summary = "Get a specific sale by ID")
     @GetMapping("/{id}")
     public ResponseEntity<ObjectResponse> getSaleById(@PathVariable Long id) {
@@ -42,6 +56,12 @@ public class SalesController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Create a new Sale.
+     *
+     * @param saleCreateRequest - Contains the details of the sale to be created.
+     * @return - A ResponseEntity containing the created sale's details with a created status.
+     */
     @Operation(summary = "Create new Sale")
     @PostMapping
     public ResponseEntity<ObjectResponse> createSale(@RequestBody SaleCreateRequest saleCreateRequest) {
@@ -52,6 +72,12 @@ public class SalesController {
 
     }
 
+    /**
+     * Update an existing Sale.
+     *
+     * @param saleUpdateRequest - Contains the updated details of the sale.
+     * @return - A ResponseEntity containing the updated sale's details.
+     */
     @Operation(summary = "Update existing Sale")
     @PutMapping()
     public ResponseEntity<ObjectResponse> updateSale(@RequestBody SaleUpdateRequest saleUpdateRequest) {
@@ -61,7 +87,12 @@ public class SalesController {
                 HttpStatus.OK);
     }
 
-
+    /**
+     * Delete a sale by ID.
+     *
+     * @param id - The ID of the sale to be deleted.
+     * @return - A ResponseEntity with a success status indicating that the sale has been deleted.
+     */
     @Operation(summary = "Delete a sale")
     @DeleteMapping("/{id}")
     public ResponseEntity<ObjectResponse> deleteSale(@PathVariable Long id) {
