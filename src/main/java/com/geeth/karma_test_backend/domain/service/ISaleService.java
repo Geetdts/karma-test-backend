@@ -15,7 +15,7 @@ public interface ISaleService {
 
     SaleDto create(SaleCreateRequest saleCreateRequest);
 
-    SaleDto update(SaleUpdateRequest saleUpdateRequest);
+    SaleDto update(Long id ,SaleUpdateRequest saleUpdateRequest);
 
     void deleteSale(Long id);
 

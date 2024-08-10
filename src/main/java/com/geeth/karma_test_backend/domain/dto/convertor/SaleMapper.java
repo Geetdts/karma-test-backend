@@ -69,8 +69,9 @@ public class SaleMapper {
      * @param existingSale      the existing Sale entity to update.
      * @return the updated Sale entity.
      */
-    public Sale convertUpdateRequestToEntity(SaleUpdateRequest saleUpdateRequest, Sale existingSale) {
+    public Sale convertUpdateRequestToEntity(Long id,SaleUpdateRequest saleUpdateRequest, Sale existingSale) {
         Sale sale = modelMapper.map(saleUpdateRequest, Sale.class);
+        sale.setId(id);
         sale.setReference(existingSale.getReference());
         sale.setCreatedAt(existingSale.getCreatedAt());
         sale.setCreatedBy(existingSale.getCreatedBy());
