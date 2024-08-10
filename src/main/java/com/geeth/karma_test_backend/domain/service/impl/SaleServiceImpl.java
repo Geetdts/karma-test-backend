@@ -71,9 +71,9 @@ public class SaleServiceImpl implements ISaleService {
      * @return - A SaleDto representing the updated sale.
      */
     @Override
-    public SaleDto update(SaleUpdateRequest saleUpdateRequest) {
-        Sale sale = getSale(saleUpdateRequest.getId());
-        Sale savedSale = saleRepository.save(saleMapper.convertUpdateRequestToEntity(saleUpdateRequest, sale));
+    public SaleDto update(Long id,SaleUpdateRequest saleUpdateRequest) {
+        Sale sale = getSale(id);
+        Sale savedSale = saleRepository.save(saleMapper.convertUpdateRequestToEntity(id,saleUpdateRequest, sale));
         return saleMapper.convertToDto(savedSale);
     }
 

@@ -7,8 +7,6 @@ import java.util.Date;
 @Data
 public class SaleUpdateRequest {
 
-    private Long id;
-
     private String customerName;
 
     private Date paymentDate;

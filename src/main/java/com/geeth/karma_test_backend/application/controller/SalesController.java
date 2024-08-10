@@ -79,10 +79,10 @@ public class SalesController {
      * @return - A ResponseEntity containing the updated sale's details.
      */
     @Operation(summary = "Update existing Sale")
-    @PutMapping()
-    public ResponseEntity<ObjectResponse> updateSale(@RequestBody SaleUpdateRequest saleUpdateRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<ObjectResponse> updateSale(@PathVariable Long id,@RequestBody SaleUpdateRequest saleUpdateRequest) {
 
-        SaleDto updatedSaleDto = iSaleService.update(saleUpdateRequest);
+        SaleDto updatedSaleDto = iSaleService.update(id,   saleUpdateRequest);
         return new ResponseEntity<>(new ObjectResponse<>(updatedSaleDto, HttpStatus.OK.value(), SystemMessage.UPDATE),
                 HttpStatus.OK);
     }
